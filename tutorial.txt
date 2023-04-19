@@ -1,0 +1,23 @@
+technologies: 
+- docker (build images, run, push to dockerhub, chạy 2 server giống nhau() thêm 1 service trong file docker-compose)
+- spring acuator (follow project, gồm 1 list các endpoint API dùng để theo dõi thông tin project)
+- spring cloud config client (config properties, evironment)
+- Resiliency pattern with Resilience4j (khả năng phục hồi khi gặp lỗi):
+  + Circuit breaker: dừng tạo (kill) request khi service bị lỗi
+  + fallback: đường dẫn thay thế cho những yêu cầu không thành công
+  + retry
+  + rate limit
+  + bulkhead
+
+
+api lấy token keycloak (getting access token from auth server using client details):
+curl --location --request POST 'localhost:7080/realms/master/protocol/openid-connect/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'client_id=eazybank-callcenter' \
+--data-urlencode 'client_secret=W6pYZfBVvSGDUsweXQ20mbnnPfNhV9o3' \
+--data-urlencode 'scope=openid' \
+--data-urlencode 'grant_type=client_credentials'
+
+api sau khi có và dùng token:
+curl --location --request GET 'localhost:8072/eazybank/cards/cards/properties' \
+--header 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ0V1lsTEN0bHFEVUFVSlpjTWJpTm5fUWk3bGdWOUF3SW5mbmFnZFNXOWdvIn0.eyJleHAiOjE2ODEzNzIwMzYsImlhdCI6MTY4MTM3MTk3NiwianRpIjoiZTViZTllOGUtMjA4Yy00MWU1LWJmZGEtY2VhZmU2NzM2ZWFlIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo3MDgwL3JlYWxtcy9tYXN0ZXIiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiOTNhNDc4NjMtZDc0OC00MjM4LTljOGItYzQ4YzFlMDA1ZTVlIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZWF6eWJhbmstY2FsbGNlbnRlciIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbWFzdGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJjbGllbnRJZCI6ImVhenliYW5rLWNhbGxjZW50ZXIiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudEhvc3QiOiIxNzIuMTcuMC4xIiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LWVhenliYW5rLWNhbGxjZW50ZXIiLCJjbGllbnRBZGRyZXNzIjoiMTcyLjE3LjAuMSJ9.KKwrqbCd9l9rVle5MPm7qGzxXtac8Dwy5GDF48mebx6ioENHDO129-TKUISCnNMqXDkfhFwl3HPS8pkPq54qzy-X_iFPyfsYQ80fmFFIyhncDQ3Oq83fSvi7LVfvu2Cy7TRGVHfUa8xE5HeoW5OVcu2K5mts765CXa3XlhBUK3a2UpoI4sPBb3wNJcc3NtFzvRvgfIYHvJHv7HjWEfCKnkrxQe8PWNfeJllaOyUNRMH3DtkT9aOGO4qSxQF9Z8J1185qCp3_YIAbOENtYZFK6PpdPICDucXEf5S-m7fPt45FG0Y1mE2cxf-NT3yMJDFzb23A01p-qw4sGcm2ChjP-w'
